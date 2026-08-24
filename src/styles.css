@@ -1,0 +1,260 @@
+:root {
+  --ink: #302c3b;
+  --muted: #766f7e;
+  --cream: #fbf7f0;
+  --paper: #fffdf9;
+  --peach: #ef8f72;
+  --coral: #d95f59;
+  --yellow: #f7c96d;
+  --sage: #a9c7ae;
+  --lavender: #d8cce9;
+  --line: rgba(67, 55, 72, .13);
+  --shadow: 0 24px 70px rgba(84, 58, 48, .13);
+  font-family: "Avenir Next", "Trebuchet MS", sans-serif;
+  color: var(--ink);
+  background: var(--cream);
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; min-width: 320px; min-height: 100%; }
+body { min-height: 100dvh; overflow-x: hidden; }
+button, a { font: inherit; }
+button { cursor: pointer; }
+button:focus-visible, a:focus-visible { outline: 3px solid #4f8b78; outline-offset: 4px; }
+[hidden] { display: none !important; }
+
+.app-shell { position: relative; min-height: 100dvh; overflow: hidden; isolation: isolate; }
+.ambient-glow { position: absolute; z-index: -1; border-radius: 50%; filter: blur(1px); pointer-events: none; }
+.ambient-glow--one { width: 38vw; height: 38vw; top: 12%; right: -10%; background: rgba(247, 201, 109, .15); }
+.ambient-glow--two { width: 30vw; height: 30vw; bottom: 3%; left: -8%; background: rgba(216, 204, 233, .25); }
+.topbar { position: relative; z-index: 10; display: flex; justify-content: flex-end; align-items: center; max-width: 1380px; margin: auto; padding: 24px clamp(22px, 5vw, 72px); }
+.topbar-actions { display: flex; align-items: center; gap: 18px; }
+.progress-label { color: var(--muted); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+.icon-button { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); background: rgba(255,255,255,.55); font-size: 22px; line-height: 1; transition: .2s ease; }
+.icon-button:hover { color: var(--coral); background: white; transform: rotate(-20deg); }
+
+.scene { --scene-margin: clamp(24px, 6vh, 72px); position: relative; max-width: 1380px; min-height: 100dvh; margin: auto; padding: var(--scene-margin) clamp(22px, 5vw, 72px); }
+.scene-controls { position: absolute; z-index: 10; top: calc(var(--scene-margin) + clamp(16px, 3vw, 28px)); right: clamp(16px, 3vw, 32px); display: flex; gap: 10px; }
+.scene-controls #skip-button { display: none; }
+.screen--chasing .scene-controls #skip-button { display: grid; }
+.sky, .park-details { position: absolute; inset: var(--scene-margin) clamp(22px, 5vw, 72px); z-index: -1; overflow: hidden; pointer-events: none; }
+.screen--chasing .park-details { display: none; }
+.sky { border-radius: 36px; background: linear-gradient(155deg, #f9e6d2 0%, #f9e9d9 42%, #e9e4ef 100%); }
+.sun { position: absolute; top: 8%; right: 16%; width: clamp(70px, 9vw, 120px); aspect-ratio: 1; border-radius: 50%; background: rgba(247, 201, 109, .76); box-shadow: 0 0 0 18px rgba(247, 201, 109, .1), 0 0 60px rgba(247, 201, 109, .25); }
+.cloud { position: absolute; width: 110px; height: 29px; border-radius: 50px; background: rgba(255,255,255,.62); opacity: .8; }
+.cloud::before, .cloud::after { content: ""; position: absolute; bottom: 0; border-radius: 50%; background: inherit; }
+.cloud::before { left: 20px; width: 45px; height: 45px; }.cloud::after { right: 17px; width: 32px; height: 32px; }
+.cloud--one { top: 17%; left: 12%; transform: scale(.75); }.cloud--two { top: 29%; right: 28%; transform: scale(.5); opacity: .45; }
+.hill { position: absolute; right: -8%; bottom: 8%; left: -8%; height: 39%; border-radius: 50% 50% 0 0 / 35% 35% 0 0; }
+.hill--back { background: #c9dac3; transform: translateY(14%); }.hill--front { bottom: -16%; height: 44%; background: #b2cba9; }
+.park-details { z-index: 0; }
+.scene-tree { position: absolute; display: block; width: auto; height: auto; max-height: 340px; user-select: none; }
+/* Rule of thirds: leave the copy and dog in open space, then build depth into the right third. */
+.scene-tree--one { right: 3%; bottom: 7%; height: clamp(235px, 34vh, 320px); z-index: 2; opacity: .8; }
+.scene-tree--two { right: 15%; bottom: 14%; height: clamp(205px, 30vh, 285px); z-index: 3; opacity: .62; }
+.scene-tree--three { right: 29%; bottom: 34%; height: clamp(105px, 15vh, 145px); z-index: 1; opacity: .48; filter: saturate(.8) brightness(1.04); }
+.scene-tree--four { right: -5%; bottom: 4%; height: clamp(255px, 38vh, 355px); z-index: 4; opacity: .96; }
+.flower { position: absolute; bottom: 20%; color: #fbf0ce; font-size: 19px; }.flower--one { left: 25%; }.flower--two { right: 22%; bottom: 29%; color: #eed3df; }.flower--three { left: 67%; bottom: 19%; font-size: 13px; }
+.paw { position: absolute; color: rgba(112, 91, 92, .32); font-size: 13px; transform: rotate(-24deg); }.paw--one { left: 30%; bottom: 17%; }.paw--two { left: 36%; bottom: 23%; transform: rotate(9deg); }
+
+.view { position: relative; z-index: 2; min-height: calc(100dvh - 196px); animation: appear .55s ease both; }
+.view--intro { display: grid; grid-template-columns: minmax(300px, .85fr) 1fr; align-items: center; gap: 5vw; padding: 5vh clamp(4px, 5vw, 70px) 7vh; }
+.intro-copy { max-width: 500px; padding-bottom: 2vh; }.eyebrow { margin: 0 0 18px; color: var(--coral); font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; }.intro-copy h1, .chase-header h2, .invitation-card h2, .accepted-content h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-weight: 600; letter-spacing: -.045em; line-height: .98; }.intro-copy h1 { font-size: clamp(38px, 5.2vw, 72px); }.intro-copy h1 em, h2 em { color: var(--coral); font-style: italic; }.lead { max-width: 400px; margin: 29px 0 32px; color: var(--muted); font-size: clamp(15px, 1.35vw, 18px); line-height: 1.65; }.primary-button { display: inline-flex; min-height: 54px; align-items: center; justify-content: space-between; gap: 28px; padding: 0 20px 0 24px; border: 0; border-radius: 4px; color: white; background: var(--coral); box-shadow: 0 10px 25px rgba(217,95,89,.2); font-size: 13px; font-weight: 700; letter-spacing: .02em; transition: .2s ease; }.primary-button:hover { background: #c65351; box-shadow: 0 13px 30px rgba(217,95,89,.3); transform: translateY(-2px); }.primary-button span:last-child { display: grid; width: 27px; height: 27px; place-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; font-size: 16px; }.hint { display: flex; align-items: center; gap: 8px; margin-top: 20px; color: var(--muted); font-size: 11px; }.hint-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--sage); }
+.intro-character { position: relative; min-height: 430px; }.shadow { position: absolute; border-radius: 50%; background: rgba(95, 78, 64, .17); filter: blur(3px); }.shadow--intro { right: 12%; bottom: 15%; width: 230px; height: 25px; }.dog--intro { position: absolute; right: 20%; bottom: 19%; transform: scale(1.55); }
+
+.dog { display: block; position: relative; width: 116px; height: 110px; }.dog-body { position: absolute; right: 11px; bottom: 23px; width: 68px; height: 49px; border-radius: 47% 54% 42% 42%; background: #b87155; }.dog-body::after { position: absolute; top: 3px; left: 10px; width: 30px; height: 20px; border-radius: 50%; background: rgba(255, 216, 170, .75); content: ""; transform: rotate(-12deg); }.dog-head { position: absolute; top: 14px; left: 11px; width: 61px; height: 61px; border-radius: 48% 54% 48% 51%; background: #c98260; transform: rotate(-7deg); }.dog-ear { position: absolute; top: 5px; width: 23px; height: 34px; border-radius: 70% 35% 60% 45%; background: #855443; }.dog-ear--left { left: -7px; transform: rotate(22deg); }.dog-ear--right { right: -7px; transform: rotate(53deg); }.dog-eye { position: absolute; top: 24px; right: 15px; width: 7px; height: 7px; border-radius: 50%; background: #302c3b; box-shadow: 1px 1px 0 1px rgba(255,255,255,.35); }.dog-muzzle { position: absolute; right: 2px; bottom: 11px; width: 26px; height: 19px; border-radius: 50%; background: #edb286; }.dog-muzzle::after { position: absolute; top: 5px; left: 7px; width: 9px; height: 6px; border-radius: 50%; background: #493a3b; content: ""; }.dog-leg { position: absolute; bottom: 7px; width: 14px; height: 40px; border-radius: 0 0 9px 9px; background: #a86450; }.dog-leg--one { right: 57px; transform: rotate(5deg); }.dog-leg--two { right: 21px; transform: rotate(-5deg); }.dog-tail { position: absolute; right: 1px; bottom: 56px; width: 38px; height: 42px; border: 9px solid #b87155; border-left: 0; border-bottom-color: transparent; border-radius: 0 34px 0 0; transform: rotate(-25deg); transform-origin: bottom left; }.envelope { position: absolute; width: 46px; height: 34px; border: 2px solid #df9a79; border-radius: 3px; background: #fff6e8; box-shadow: 2px 4px 0 rgba(98,62,56,.08); }.envelope span::after, .envelope span::before { position: absolute; top: 5px; width: 27px; height: 2px; background: #e0a17c; content: ""; }.envelope span::before { left: 0; transform: rotate(31deg); }.envelope span::after { right: 0; transform: rotate(-31deg); }.envelope--held { right: 30px; bottom: 40px; transform: rotate(12deg); }.envelope--held::before { position: absolute; top: -9px; right: -6px; width: 10px; height: 10px; border-radius: 50%; background: var(--coral); content: "♥"; color: white; font-size: 6px; text-align: center; line-height: 10px; }
+
+.view--chase { padding: 4vh 3vw 2vh; }.chase-header { display: flex; justify-content: space-between; align-items: end; max-width: 920px; margin: 0 auto 14px; }.chase-header h2 { font-size: clamp(38px, 5vw, 66px); }.attempt-counter { color: var(--coral); font-family: Georgia, "Times New Roman", serif; font-size: 40px; }.attempt-counter small { color: var(--muted); font-family: "Avenir Next", "Trebuchet MS", sans-serif; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }.game-field { position: relative; max-width: 920px; height: min(58vh, 510px); min-height: 300px; margin: 0 auto; overflow: hidden; border: 1px solid rgba(126, 147, 125, .25); border-radius: 28px; background: linear-gradient(160deg, rgba(234,224,208,.55), rgba(178,203,169,.8)); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22), var(--shadow); cursor: crosshair; }.game-field::before { position: absolute; inset: 45% -10% -40%; border-radius: 50%; background: rgba(231, 242, 214, .45); content: ""; }.game-instruction { position: absolute; z-index: 3; top: 22px; left: 22px; display: flex; align-items: center; gap: 9px; max-width: calc(100% - 44px); padding: 11px 16px; border: 1px solid rgba(255,255,255,.62); border-radius: 20px; color: #5c6658; background: rgba(255,253,249,.72); font-size: 12px; box-shadow: 0 5px 20px rgba(95, 100, 75, .06); }.instruction-icon { color: var(--coral); }.dog-button { position: absolute; z-index: 2; top: 0; left: 0; width: 138px; height: 130px; padding: 0; border: 0; background: transparent; transform: translate3d(var(--dog-x, 50%), var(--dog-y, 42%), 0); transition: transform .58s cubic-bezier(.3, .85, .4, 1); }.dog-button:hover .dog--playful { transform: translateY(-5px) rotate(-2deg); }.dog-button .dog { margin: auto; transform: scale(.94); transition: transform .2s ease; }.dog--playful .dog-tail { animation: wag .8s ease-in-out infinite alternate; }.dog-hit-label { position: absolute; bottom: -2px; left: 50%; padding: 4px 8px; border-radius: 8px; color: #776b5f; background: rgba(255,250,237,.75); font-size: 10px; opacity: 0; transform: translateX(-50%) translateY(4px); transition: .2s ease; }.dog-button:hover .dog-hit-label, .dog-button:focus-visible .dog-hit-label { opacity: 1; transform: translateX(-50%); }.dog-button--running .dog { animation: run .3s ease-in-out infinite alternate; }.game-grass { position: absolute; z-index: 1; right: 10%; bottom: 10%; left: 8%; display: flex; justify-content: space-between; color: rgba(115, 148, 106, .54); font-size: 22px; }.text-button { display: inline-flex; align-items: center; gap: 10px; padding: 12px 0; border: 0; color: var(--muted); background: transparent; font-size: 12px; text-decoration: none; transition: .2s ease; }.text-button:hover { color: var(--coral); }.view--chase > .text-button { display: flex; margin: 10px auto; }
+
+.view--accepted { display: grid; place-items: center; text-align: center; }.accepted-content h2 { font-size: clamp(47px, 6vw, 78px); }
+.view--invitation { display: grid; place-items: center; padding: 2vh 0 6vh; }.invitation-card { width: min(100%, 555px); padding: clamp(27px, 4vw, 45px); border: 1px solid rgba(217, 95, 89, .16); border-radius: 5px; background: var(--paper); box-shadow: var(--shadow); text-align: center; transform: rotate(-.5deg); }.card-topline, .card-footer { display: flex; align-items: center; justify-content: space-between; color: var(--coral); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }.card-topline { padding-bottom: 22px; border-bottom: 1px solid var(--line); }.card-topline span:last-child { font-size: 17px; }.invitation-card .eyebrow { margin-top: 30px; }.invitation-card h2 { font-size: clamp(39px, 5vw, 57px); }.invitation-message { margin: 24px auto 28px; max-width: 390px; color: var(--muted); font-size: 14px; line-height: 1.65; }.event-details { display: grid; gap: 13px; margin: 0 auto 29px; padding: 20px; border-radius: 4px; background: #fbf4eb; text-align: left; }.event-detail { display: flex; align-items: center; gap: 14px; }.detail-icon { display: grid; width: 31px; height: 31px; flex: none; place-items: center; border-radius: 50%; color: var(--coral); background: #f7dfd0; font-size: 14px; }.event-detail small, .event-detail strong { display: block; }.event-detail small { margin-bottom: 2px; color: var(--muted); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; }.event-detail strong { font-size: 12px; font-weight: 600; }.card-footer { padding: 17px 0 22px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; letter-spacing: 0; text-transform: none; }.card-footer strong { color: var(--ink); font-weight: 600; }.card-seal { display: grid; width: 31px; height: 31px; place-items: center; border: 1px solid rgba(217,95,89,.35); border-radius: 50%; color: var(--coral); font-size: 15px; }.primary-button--full { width: 100%; }
+.accepted-content { width: min(100%, 560px); padding: 5vh 18px 3vh; }.success-mark { display: grid; width: 56px; height: 56px; place-items: center; margin: 0 auto 25px; border-radius: 50%; color: white; background: var(--coral); box-shadow: 0 10px 27px rgba(217,95,89,.25); font-size: 23px; animation: pop .7s cubic-bezier(.17,.89,.32,1.4) both; }.accepted-message { max-width: 420px; margin: 25px auto; color: var(--muted); font-size: 15px; line-height: 1.7; }.accepted-details { display: grid; gap: 6px; padding: 17px 20px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); color: var(--coral); font-size: 13px; }.accepted-details span { color: var(--muted); font-size: 12px; }.accepted-actions { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 19px; margin-top: 27px; }.secondary-button { min-height: 45px; padding: 0 17px; border: 1px solid rgba(217,95,89,.35); border-radius: 3px; color: var(--coral); background: transparent; font-size: 12px; font-weight: 700; transition: .2s ease; }.secondary-button:hover { color: white; background: var(--coral); }.celebration { position: absolute; inset: 7% 9%; pointer-events: none; }.celebration span { position: absolute; color: var(--yellow); font-size: 21px; animation: float 3.5s ease-in-out infinite; }.celebration span:nth-child(1) { top: 8%; left: 14%; }.celebration span:nth-child(2) { top: 25%; right: 15%; color: var(--coral); animation-delay: .9s; }.celebration span:nth-child(3) { top: 60%; left: 6%; animation-delay: 1.3s; }.celebration span:nth-child(4) { bottom: 8%; left: 25%; color: var(--sage); animation-delay: .5s; }.celebration span:nth-child(5) { right: 7%; bottom: 20%; color: var(--coral); animation-delay: 1.9s; }.celebration span:nth-child(6) { top: 5%; right: 37%; color: var(--sage); animation-delay: 1.6s; }.celebration span:nth-child(7) { bottom: 34%; left: 42%; animation-delay: 2.2s; }
+.site-footer { position: absolute; z-index: 10; right: clamp(22px, 5vw, 72px); bottom: 19px; left: clamp(22px, 5vw, 72px); display: flex; justify-content: space-between; color: rgba(93, 81, 90, .52); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; }.footer-heart { color: var(--coral); font-size: 13px; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+@keyframes appear { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } } @keyframes wag { from { transform: rotate(-25deg); } to { transform: rotate(15deg); } } @keyframes run { from { transform: translateX(-3px) rotate(-3deg); } to { transform: translateX(3px) rotate(3deg); } } @keyframes envelope-drop { from { opacity: 0; transform: translateY(-40px) rotate(12deg); } to { opacity: 1; transform: translateY(0) rotate(-8deg); } } @keyframes twinkle { from { opacity: .3; transform: scale(.8) rotate(0); } to { opacity: 1; transform: scale(1.15) rotate(20deg); } } @keyframes pop { from { transform: scale(.3); opacity: 0; } to { transform: scale(1); opacity: 1; } } @keyframes float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(12deg); } }
+@media (max-width: 700px) { .topbar { padding-top: 16px; padding-bottom: 13px; }.progress-label { display: none; }.scene { min-height: 100dvh; padding-top: var(--scene-margin); padding-bottom: var(--scene-margin); }.sky, .park-details { inset: var(--scene-margin) 16px; border-radius: 23px; }.view { min-height: calc(100dvh - 149px); }.view--intro { display: block; padding: 7vh 5vw 3vh; }.intro-copy { position: relative; z-index: 2; }.intro-copy h1 { font-size: clamp(45px, 14vw, 69px); }.lead { margin-top: 23px; font-size: 14px; }.intro-character { min-height: 270px; margin-top: -4px; }.scene-tree { max-height: 210px; }.scene-tree--one { right: -11%; bottom: 7%; height: 185px; }.scene-tree--two { right: 8%; bottom: 12%; height: 165px; }.scene-tree--three { right: 24%; bottom: 25%; height: 112px; }.scene-tree--four { right: -4%; bottom: 5%; height: 205px; }.dog--intro { right: 20%; bottom: 12%; transform: scale(1.18); }.shadow--intro { right: 8%; bottom: 8%; width: 190px; }.view--chase { padding: 3vh 4vw 1vh; }.chase-header { align-items: center; margin-bottom: 13px; }.chase-header .eyebrow { margin-bottom: 11px; font-size: 9px; }.chase-header h2 { font-size: 39px; }.attempt-counter { font-size: 31px; }.attempt-counter small { display: block; font-size: 9px; }.game-field { height: min(59vh, 470px); min-height: 320px; border-radius: 21px; }.game-instruction { top: 14px; left: 14px; font-size: 11px; }.dog-button { width: 130px; height: 125px; }.view--invitation { padding-top: 3vh; }.invitation-card { padding: 24px 20px 22px; }.invitation-card .eyebrow { margin-top: 24px; }.invitation-message { margin: 21px auto 23px; font-size: 13px; }.event-details { padding: 16px; }.site-footer { bottom: 14px; font-size: 8px; }.site-footer span:first-child, .site-footer span:last-child { max-width: 120px; }.accepted-content { padding-top: 1vh; }.accepted-content h2 { font-size: 55px; }.celebration { inset: 4% 4% 8%; } }
+@media (max-width: 700px) {
+  .scene-tree--three { right: 24%; bottom: 33%; height: 92px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+/* Husky character pass: cool double coat, pointed ears, mask, and blue eye. */
+.dog-body { background: #7d8998; }
+.dog-body::after { top: 2px; left: 8px; width: 35px; height: 27px; background: #f5f3ee; transform: rotate(-10deg); }
+.dog-head { background: #aab3be; border-radius: 44% 47% 51% 53%; }
+.dog-head::before { position: absolute; z-index: 0; top: -1px; left: 17px; width: 25px; height: 52px; background: #f8f6f0; clip-path: polygon(38% 0, 62% 0, 86% 100%, 14% 100%); content: ""; }
+.dog-ear { top: 0; width: 25px; height: 39px; border-radius: 55% 55% 22% 22%; background: #56616f; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.dog-ear::after { position: absolute; top: 8px; left: 8px; width: 9px; height: 20px; background: #d28e98; clip-path: polygon(50% 0, 100% 100%, 0 100%); content: ""; opacity: .8; }
+.dog-ear--left { left: -8px; transform: rotate(19deg); }
+.dog-ear--right { right: -8px; transform: rotate(47deg); }
+.dog-eye { z-index: 1; background: #67b8e8; box-shadow: 0 0 0 2px rgba(44, 62, 76, .22), 1px 1px 0 2px rgba(255,255,255,.7); }
+.dog-muzzle { z-index: 1; background: #f5f3ee; }
+.dog-muzzle::after { background: #26313d; }
+.dog-leg { background: #687483; }
+.dog-leg::after { position: absolute; right: -1px; bottom: 0; left: -1px; height: 12px; border-radius: 0 0 9px 9px; background: #f5f3ee; content: ""; }
+.dog-tail { border-color: #687483; border-bottom-color: transparent; }
+.dog-tail::after { position: absolute; top: -2px; right: -6px; width: 15px; height: 15px; border-radius: 50%; background: #f5f3ee; content: ""; }
+
+/* Sprite-backed dog character. */
+.husky-art { display: block; width: 100%; height: 100%; overflow: visible; }
+.husky-art { display: none; }
+.dog-button--running .dog { animation: none; }
+
+/* OpenGameArt's 6x6 pixel-art sheet: 60x38 cells, rows are bark, walk, run,
+   sit transition, idle sit, and idle stand. */
+.husky-sprite { display: block; width: 120px; height: 76px; background-image: url("./assets/dog_medium.png"); background-size: 600% 600%; background-position: 0 100%; background-repeat: no-repeat; image-rendering: pixelated; }
+.dog--intro .husky-sprite { width: 150px; height: 95px; animation: dog-idle 1.1s steps(6, end) infinite; }
+.dog-button .husky-sprite { width: 138px; height: 87px; margin: 0 auto; }
+.dog--playful .husky-sprite--chase { background-position: 0 20%; animation: dog-walk .75s steps(6, end) infinite; }
+.dog-button--running .husky-sprite--chase { background-position: 0 40%; animation: dog-run .45s steps(6, end) infinite; }
+@keyframes dog-idle { from { background-position: 0 100%; } to { background-position: 100% 100%; } }
+@keyframes dog-walk { from { background-position: 0 20%; } to { background-position: 100% 20%; } }
+@keyframes dog-run { from { background-position: 0 40%; } to { background-position: 100% 40%; } }
+@media (prefers-reduced-motion: reduce) { .husky-sprite { animation: none !important; } }
+
+/* Each source frame is padded with 8 transparent pixels below it so paws never touch the crop edge. */
+.husky-sprite { width: 120px; height: 92px; background-image: url("./assets/dog_medium_padded.png"); background-size: 720px 552px; background-position: 0 -460px; transform: scale(.9); transform-origin: center top; }
+.dog--intro .husky-sprite, .dog-button .husky-sprite { width: 120px; height: 92px; }
+.dog--playful .husky-sprite--chase { background-position: 0 -92px; animation: dog-walk-pixel .75s steps(5, end) infinite; }
+.dog-button--running .husky-sprite--chase { background-position: 0 -184px; animation: dog-run-pixel .45s steps(5, end) infinite; }
+.dog--intro .husky-sprite--idle { background-position: 0 -460px; animation: dog-idle-pixel 1.1s steps(5, end) infinite; }
+@keyframes dog-walk-pixel { from { background-position: 0 -92px; } to { background-position: -600px -92px; } }
+@keyframes dog-run-pixel { from { background-position: 0 -184px; } to { background-position: -600px -184px; } }
+@keyframes dog-idle-pixel { from { background-position: 0 -460px; } to { background-position: -600px -460px; } }
+@keyframes dog-stand-idle-pixel { from { background-position: 0 -460px; } to { background-position: -360px -460px; } }
+@keyframes dog-sit-idle-pixel { from { background-position: 0 -368px; } to { background-position: -360px -368px; } }
+@media (prefers-reduced-motion: reduce) { .husky-sprite { animation: none !important; } }
+
+/* Foreground grass gently masks the sprite's lower edge so the paws feel planted. */
+.dog-button::after, .dog--playful::after, .dog--intro::after {
+  position: absolute;
+  z-index: 4;
+  right: 4px;
+  bottom: 38px;
+  left: 4px;
+  height: 18px;
+  border-radius: 50% 50% 8px 8px;
+  background: #a9c39a;
+  clip-path: polygon(0 58%, 6% 36%, 11% 59%, 17% 25%, 23% 58%, 30% 39%, 37% 61%, 45% 26%, 53% 60%, 61% 35%, 68% 59%, 76% 24%, 84% 59%, 91% 37%, 100% 58%, 100% 100%, 0 100%);
+  content: "";
+  filter: drop-shadow(0 -2px 0 rgba(114, 153, 103, .22));
+  pointer-events: none;
+}
+.dog--intro::after { bottom: 8px; }
+
+/* The source dog faces left; turn the artwork around when its target is to the right. */
+.dog--facing-right .husky-sprite { transform: scaleX(-.9) scaleY(.9); }
+
+/* Intro uses the larger front-facing husky frame from the supplied character sheet. */
+.dog--intro { right: calc(18% - 50px); bottom: 10%; width: 150px; height: 270px; z-index: 5; transform: translateY(300px); }
+.dog--intro .intro-husky-image { position: absolute; bottom: 0; left: 7px; display: block; width: 136px; height: auto; image-rendering: auto; }
+.dog--intro .husky-sprite, .dog--intro .husky-art { display: none; }
+.dog--intro::after { right: 0; bottom: -1px; left: 0; height: 20px; }
+.letter-envelope--intro { position: absolute; right: auto; bottom: -22px; left: 30px; z-index: 6; display: block; width: 90px; height: 56px; background-image: url("./assets/letter-envelope.png"); background-position: center; background-repeat: no-repeat; background-size: 150px 150px; image-rendering: pixelated; transform: rotate(-4deg); }
+@media (max-width: 700px) {
+  .dog--intro { right: calc(13% - 50px); bottom: 8%; width: 124px; height: 232px; }
+  .dog--intro .intro-husky-image { left: 4px; width: 124px; }
+  .letter-envelope--intro { right: auto; bottom: -19px; left: 20px; width: 82px; height: 51px; background-size: 137px 137px; transform: rotate(-4deg); }
+}
+
+/* The chase uses the whole illustrated park instead of an inner game card. */
+.view--chase { display: flex; flex-direction: column; height: calc(100dvh - (2 * var(--scene-margin))); min-height: 0; padding: clamp(16px, 3vh, 32px) 0 0; }
+.chase-header { position: relative; z-index: 3; max-width: none; padding: 0 clamp(4px, 5vw, 70px); }
+.game-instruction { display: none; }
+.game-field { flex: 1 1 auto; max-width: none; width: 100%; height: auto; min-height: 0; margin: 0; overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.game-field::before { display: none; }
+.stage-cathedral { position: absolute; z-index: 0; bottom: 48%; left: clamp(0px, 5vw, 64px); display: block; width: clamp(290px, 48vw, 620px); height: auto; pointer-events: none; user-select: none; transform: translateY(50px); }
+.stage-windmill { position: absolute; z-index: 0; right: clamp(1%, 3vw, 44px); bottom: 44%; display: block; width: clamp(190px, 27vw, 365px); height: auto; pointer-events: none; user-select: none; transform: translateY(20px); }
+.bush-layer { position: absolute; z-index: 1; inset: 0; pointer-events: none; }
+.bush { --bush-frame-width: 128px; --bush-frame-height: 183px; --bush-row-one-y: -32px; --bush-row-two-y: -200px; --bush-row-three-y: -380px; --bush-idle-shift: 32px; position: absolute; bottom: 0; display: block; width: var(--bush-frame-width); height: var(--bush-frame-height); cursor: pointer; image-rendering: pixelated; pointer-events: none; }
+.bush::before { position: absolute; inset: 0; background-image: url("./assets/bushes.png"); background-position: 0 var(--bush-row-three-y); background-size: calc(var(--bush-frame-width) * 6) calc(var(--bush-frame-width) * 4); background-repeat: no-repeat; content: ""; pointer-events: none; transform: translateY(var(--bush-idle-shift)); }
+/* Keep the clickable area close to the visible bush instead of the full transparent frame. */
+.bush::after { position: absolute; top: 6%; left: 5%; width: 90%; height: calc(92% + var(--bush-idle-shift)); content: ""; pointer-events: auto; }
+.bush--one { bottom: calc(4% + 210px); left: calc(64% + 10px); }
+.bush--two { bottom: 10%; left: 12%; }
+.bush--three { bottom: 230px; left: calc(31% + 20px); }
+.bush--five { bottom: 230px; left: calc(31% - 30px); }
+.bush--six { bottom: calc(4% + 210px); left: -1%; }
+.bush--seven { bottom: calc(4% + 210px); left: 60%; }
+.bush--eight { bottom: calc(4% + 210px); right: -2%; }
+.bush--nine { bottom: 8%; left: 22%; }
+.bush--ten { bottom: 8%; left: 32%; }
+.bush--eleven { bottom: 8%; left: 77%; }
+.bush--twelve { bottom: calc(8% + 20px); left: calc(84% - 20px); }
+.bush--thirteen { bottom: 8%; left: 70%; }
+.bush--four { bottom: calc(2% + 20px); right: calc(4% + 20px); }
+.bush--jumping::before { animation: bush-jump .6s steps(1, end) 1 both; }
+.bush--occupied { animation: bush-shake 1.45s ease-in-out infinite; transform-origin: 50% 100%; }
+.bush:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+.dog-button { width: 112px; height: 96px; }
+.dog-button::after { display: none; }
+.dog--playful::after { bottom: 30px; }
+.dog-button--hidden { opacity: 0; pointer-events: none; transform: translate3d(var(--dog-x), var(--dog-y), 0) scale(.5); transition: opacity .28s ease, transform .38s ease; }
+.dog-button.dog-button--in-bush { top: auto; right: auto; bottom: 22px; left: 50%; z-index: 2; transform: translateX(-50%) translateY(17px); transition: none; }
+.dog-button.dog-button--in-bush.dog-button--hidden { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(17px); }
+.dog-button--in-bush .dog { transform: none; }
+.dog-button--in-bush .husky-sprite { transform: none; }
+.dog-button--in-bush .dog-hit-label { display: none; }
+.dog-button--in-bush.dog-button--releasing { animation: dog-bush-peek .6s ease-out 1 both; }
+@media (max-width: 700px) {
+  .view--chase { height: calc(100dvh - (2 * var(--scene-margin))); min-height: 0; padding-top: 16px; }
+  .game-field { height: auto; min-height: 0; }
+  .stage-cathedral { bottom: 48%; left: -5%; width: 72%; }
+  .stage-windmill { right: -4%; bottom: 43%; width: 180px; }
+  .bush { --bush-frame-width: 104px; --bush-frame-height: 149px; --bush-row-one-y: -26px; --bush-row-two-y: -162.5px; --bush-row-three-y: -308.75px; --bush-idle-shift: 26px; }
+  .dog-button.dog-button--in-bush { bottom: 18px; }
+  .bush--one { bottom: calc(4% + 210px); left: calc(62% + 10px); }
+  .bush--two { bottom: 10%; left: 8%; }
+  .bush--three { bottom: 230px; left: calc(31% + 20px); }
+  .bush--five { bottom: 230px; left: calc(31% - 30px); }
+  .bush--six { bottom: calc(4% + 210px); left: -6%; }
+  .bush--seven { bottom: calc(4% + 210px); left: 58%; }
+  .bush--eight { bottom: calc(4% + 210px); right: -13%; }
+  .bush--nine { bottom: 8%; left: 20%; }
+  .bush--ten { bottom: 8%; left: 32%; }
+  .bush--eleven { bottom: 8%; left: 76%; }
+  .bush--twelve { bottom: calc(8% + 20px); left: calc(83% - 20px); }
+  .bush--thirteen { bottom: 8%; left: 69%; }
+  .bush--four { bottom: calc(2% + 20px); right: calc(-4% + 20px); }
+  .dog-button { width: 108px; height: 94px; }
+}
+
+/* Continuous chase motion and playful feedback. */
+.dog-button { transition: transform var(--dog-duration, .58s) cubic-bezier(.3, .85, .4, 1); }
+.cheer-bubble { position: absolute; z-index: 4; max-width: 145px; padding: 8px 12px; border-radius: 15px 15px 15px 3px; color: #6e6259; background: rgba(255, 252, 242, .94); box-shadow: 0 5px 18px rgba(87, 94, 69, .12); font-size: 11px; font-weight: 700; opacity: 0; pointer-events: none; transform: translateY(5px) rotate(-3deg); transition: opacity .2s ease, transform .2s ease; }
+.cheer-bubble::after { position: absolute; right: 12px; bottom: -6px; width: 11px; height: 11px; background: inherit; clip-path: polygon(0 0, 100% 0, 100% 100%); content: ""; }
+.cheer-bubble.is-visible { opacity: 1; transform: translateY(0) rotate(-3deg); }
+@keyframes bush-jump {
+  0% { background-position: 0 var(--bush-row-one-y); transform: translateY(0); }
+  12.5% { background-position: calc(var(--bush-frame-width) * -1) var(--bush-row-one-y); transform: translateY(0); }
+  25% { background-position: calc(var(--bush-frame-width) * -3) var(--bush-row-one-y); transform: translateY(0); }
+  37.5% { background-position: calc(var(--bush-frame-width) * -5) var(--bush-row-one-y); transform: translateY(0); }
+  50% { background-position: 0 var(--bush-row-two-y); transform: translateY(0); }
+  62.5% { background-position: calc(var(--bush-frame-width) * -1) var(--bush-row-two-y); transform: translateY(0); }
+  75% { background-position: calc(var(--bush-frame-width) * -3) var(--bush-row-two-y); transform: translateY(0); }
+  87.5% { background-position: calc(var(--bush-frame-width) * -5) var(--bush-row-two-y); transform: translateY(0); }
+  100% { background-position: 0 var(--bush-row-three-y); transform: translateY(var(--bush-idle-shift)); }
+}
+@keyframes bush-shake {
+  0%, 76%, 100% { transform: translateX(0) rotate(0deg); }
+  80% { transform: translateX(-2px) rotate(-1deg); }
+  84% { transform: translateX(2px) rotate(1deg); }
+  88% { transform: translateX(-1px) rotate(-.5deg); }
+  92% { transform: translateX(0) rotate(0deg); }
+}
+@keyframes dog-bush-peek {
+  0% { opacity: 0; transform: translateX(-50%) translateY(17px); }
+  22% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  78% { opacity: 1; transform: translateX(-50%) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .bush--occupied { animation: none; }
+}
+.dog--playful .husky-sprite--chase { animation: dog-walk-pixel .75s steps(5, end) infinite; }
+.dog-button--running .husky-sprite--chase { animation: dog-run-pixel var(--dog-sprite-duration, .45s) steps(5, end) infinite; }
+.dog-button:not(.dog-button--running) .husky-sprite--chase { background-position: 0 -460px; animation: dog-stand-idle-pixel 1.1s steps(3, end) infinite; }
+.dog-button.dog-button--idle-sitting .husky-sprite--chase { background-position: 0 -368px; animation: dog-sit-idle-pixel 1.25s steps(3, end) infinite; }
+.dog--intro .husky-sprite--idle { animation: dog-stand-idle-pixel 1.1s steps(3, end) infinite; }
+@media (max-width: 700px) { .intro-copy h1 { font-size: clamp(32px, 10vw, 52px); } }
+.event-detail a { color: inherit; text-decoration-color: rgba(217, 95, 89, .45); text-underline-offset: 3px; }

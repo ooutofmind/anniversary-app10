@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7efe4" />
+    <meta name="description" content="Маленький сюрприз к годовщине." />
+    <title>Поймай потерявшуюся собаку</title>
+    <link rel="stylesheet" href="src/styles.css" />
+  </head>
+  <body>
+    <main id="app" class="app-shell">
+      <div class="ambient-glow ambient-glow--one" aria-hidden="true"></div>
+      <div class="ambient-glow ambient-glow--two" aria-hidden="true"></div>
+
+      <section id="scene" class="scene" aria-live="polite">
+        <div class="scene-controls">
+          <button id="restart-button" class="icon-button" type="button" aria-label="Начать сюрприз заново" title="Начать заново">
+            <span aria-hidden="true">↻</span>
+          </button>
+          <button id="skip-button" class="icon-button" type="button" aria-label="Пропустить погоню" title="Пропустить погоню">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div class="sky" aria-hidden="true">
+          <span class="sun"></span>
+          <span class="cloud cloud--one"></span>
+          <span class="cloud cloud--two"></span>
+          <span class="hill hill--back"></span>
+          <span class="hill hill--front"></span>
+        </div>
+
+        <div class="park-details" aria-hidden="true">
+          <img class="scene-tree scene-tree--one" src="src/assets/tree-1.png" alt="" />
+          <img class="scene-tree scene-tree--two" src="src/assets/tree-2.png" alt="" />
+          <img class="scene-tree scene-tree--three" src="src/assets/tree-3.png" alt="" />
+          <img class="scene-tree scene-tree--four" src="src/assets/tree-4.png" alt="" />
+          <span class="flower flower--one">✦</span>
+          <span class="flower flower--two">✦</span>
+          <span class="flower flower--three">✦</span>
+          <span class="paw paw--one">· ᴥ ·</span>
+          <span class="paw paw--two">· ᴥ ·</span>
+        </div>
+
+        <section id="intro-view" class="view view--intro">
+          <div class="intro-copy">
+            <p class="eyebrow">Маленькое приключение к годовщине</p>
+            <h1>Люся, тебе письмо с сердечком,<br /><em>но произошло хулиганство.</em></h1>
+            <p class="lead">Руна украла письмо, и её нужно скорее поймать, пока она не начала мотать башкой.</p>
+            <button id="start-button" class="primary-button" type="button">
+              <span>Начать погоню</span><span aria-hidden="true">→</span>
+            </button>
+          </div>
+
+          <div class="intro-character" aria-hidden="true">
+            <div class="dog dog--intro">
+              <img class="intro-husky-image" src="src/assets/husky-intro.png" alt="" />
+              <span class="husky-sprite husky-sprite--idle" aria-hidden="true"></span>
+              <svg class="husky-art" viewBox="0 0 170 130" role="img" aria-label="Сибирский хаски с конвертом">
+                <path class="husky-tail" d="M122 64 C151 61 159 33 139 17" fill="none" stroke="#5d6978" stroke-linecap="round" stroke-width="14" />
+                <path d="M139 17 C144 18 148 21 151 26" fill="none" stroke="#f7f5ef" stroke-linecap="round" stroke-width="9" />
+                <ellipse cx="94" cy="82" rx="48" ry="32" fill="#8491a0" />
+                <path d="M68 101 L67 122 Q67 128 73 128 Q79 128 79 122 L81 99 Z" fill="#657282" />
+                <path d="M108 100 L110 122 Q110 128 116 128 Q122 128 122 122 L120 96 Z" fill="#657282" />
+                <path d="M67 120 Q73 116 79 120 L79 125 Q72 130 66 125 Z" fill="#f7f5ef" />
+                <path d="M109 120 Q116 116 122 120 L122 125 Q115 130 109 125 Z" fill="#f7f5ef" />
+                <path d="M91 54 Q111 65 115 96 Q102 108 86 101 Q79 80 82 62 Z" fill="#f7f5ef" />
+                <path d="M31 38 Q34 20 51 18 Q70 20 79 37 L77 72 Q65 91 45 84 Q27 76 27 56 Z" fill="#aeb7c2" />
+                <path d="M34 30 L43 4 L57 29 Z" fill="#5d6978" /><path d="M40 24 L44 12 L50 27 Z" fill="#d88e9a" />
+                <path d="M64 29 L82 5 L80 40 Z" fill="#5d6978" /><path d="M70 27 L79 14 L76 30 Z" fill="#d88e9a" />
+                <path d="M51 19 Q57 39 57 72 L47 82 L40 69 L43 30 Z" fill="#f7f5ef" />
+                <ellipse cx="67" cy="60" rx="5" ry="6" fill="#69bce9" stroke="#435160" stroke-width="2" />
+                <path d="M62 69 Q77 63 87 73 Q87 86 73 89 Q59 85 58 76 Z" fill="#f7f5ef" />
+                <ellipse cx="77" cy="72" rx="7" ry="5" fill="#26323e" />
+                <path d="M43 83 Q62 91 77 84" fill="none" stroke="#b65e68" stroke-linecap="round" stroke-width="4" />
+              </svg>
+              <span class="letter-envelope letter-envelope--intro" aria-hidden="true"></span>
+            </div>
+            <span class="shadow shadow--intro"></span>
+          </div>
+        </section>
+
+        <section id="chase-view" class="view view--chase" hidden>
+          <div class="chase-header">
+            <div>
+              <p class="eyebrow">Маленькое приключение к годовщине</p>
+              <h2>Поймай <em>гонца.</em></h2>
+            </div>
+          </div>
+
+          <div id="game-field" class="game-field" role="application" aria-label="Игра-погоня. Нажми или кликни на собаку, чтобы её поймать.">
+            <img class="stage-cathedral" src="src/assets/stage-cathedral.png" alt="" aria-hidden="true" />
+            <img class="stage-windmill" src="src/assets/windmill.png" alt="" aria-hidden="true" />
+            <div class="bush-layer">
+              <span class="bush bush--one" data-bush="one" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--two" data-bush="two" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--three" data-bush="three" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--five" data-bush="five" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--six" data-bush="six" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--seven" data-bush="seven" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--eight" data-bush="eight" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--nine" data-bush="nine" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--ten" data-bush="ten" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--eleven" data-bush="eleven" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--twelve" data-bush="twelve" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--thirteen" data-bush="thirteen" role="button" tabindex="0" aria-label="Куст"></span>
+              <span class="bush bush--four" data-bush="four" role="button" tabindex="0" aria-label="Куст"></span>
+            </div>
+            <div class="game-instruction"><span class="instruction-icon">✦</span><span id="feedback-message">Она прямо там — скорее!</span></div>
+            <div id="cheer-bubble" class="cheer-bubble" aria-hidden="true"></div>
+            <button id="dog-button" class="dog-button" type="button" aria-label="Поймать собаку">
+              <span class="dog dog--playful">
+                <span class="husky-sprite husky-sprite--chase" aria-hidden="true"></span>
+                <svg class="husky-art" viewBox="0 0 170 130" aria-hidden="true">
+                  <path class="husky-tail" d="M122 64 C151 61 159 33 139 17" fill="none" stroke="#5d6978" stroke-linecap="round" stroke-width="14" /><path d="M139 17 C144 18 148 21 151 26" fill="none" stroke="#f7f5ef" stroke-linecap="round" stroke-width="9" />
+                  <ellipse cx="94" cy="82" rx="48" ry="32" fill="#8491a0" /><path d="M68 101 L67 122 Q67 128 73 128 Q79 128 79 122 L81 99 Z" fill="#657282" /><path d="M108 100 L110 122 Q110 128 116 128 Q122 128 122 122 L120 96 Z" fill="#657282" /><path d="M67 120 Q73 116 79 120 L79 125 Q72 130 66 125 Z" fill="#f7f5ef" /><path d="M109 120 Q116 116 122 120 L122 125 Q115 130 109 125 Z" fill="#f7f5ef" />
+                  <path d="M91 54 Q111 65 115 96 Q102 108 86 101 Q79 80 82 62 Z" fill="#f7f5ef" /><path d="M31 38 Q34 20 51 18 Q70 20 79 37 L77 72 Q65 91 45 84 Q27 76 27 56 Z" fill="#aeb7c2" /><path d="M34 30 L43 4 L57 29 Z" fill="#5d6978" /><path d="M40 24 L44 12 L50 27 Z" fill="#d88e9a" /><path d="M64 29 L82 5 L80 40 Z" fill="#5d6978" /><path d="M70 27 L79 14 L76 30 Z" fill="#d88e9a" /><path d="M51 19 Q57 39 57 72 L47 82 L40 69 L43 30 Z" fill="#f7f5ef" /><ellipse cx="67" cy="60" rx="5" ry="6" fill="#69bce9" stroke="#435160" stroke-width="2" /><path d="M62 69 Q77 63 87 73 Q87 86 73 89 Q59 85 58 76 Z" fill="#f7f5ef" /><ellipse cx="77" cy="72" rx="7" ry="5" fill="#26323e" /><path d="M43 83 Q62 91 77 84" fill="none" stroke="#b65e68" stroke-linecap="round" stroke-width="4" />
+                </svg>
+              </span>
+              <span class="dog-hit-label">поймай меня</span>
+            </button>
+            <div class="game-grass" aria-hidden="true"><span>✦</span><span>✿</span><span>✦</span><span>❋</span><span>✿</span></div>
+          </div>
+        </section>
+
+        <section id="invitation-view" class="view view--invitation" hidden>
+          <article class="invitation-card" aria-labelledby="invitation-title">
+            <div class="card-topline"><span>✦ с любовью</span><span>♥</span></div>
+            <p class="eyebrow">Любимая Люся!</p>
+            <h2 id="invitation-title">Приглашаю тебя на<br /><em>романтический ужин.</em></h2>
+            <p id="invitation-message" class="invitation-message">Давай насладимся новым гастрономическим опытом вместе и попробуем, какие звёзды на вкус.</p>
+            <div class="event-details">
+              <div class="event-detail"><span class="detail-icon">◷</span><span><small>Когда</small><strong id="event-date">Четверг, 27 августа 19:15</strong></span></div>
+              <div class="event-detail"><span class="detail-icon">⌖</span><span><small>Где</small><strong><a id="event-location" href="https://maps.app.goo.gl/RbWmuWtv1Hn7fVdk8?g_st=ic" target="_blank" rel="noopener noreferrer">Restaurant Vinkeles</a></strong></span></div>
+              <div class="event-detail"><span class="detail-icon">✧</span><span><small>Дресс-код</small><strong id="event-dress">То, в чём ты чувствуешь себя прекрасно</strong></span></div>
+            </div>
+            <a id="accept-button" class="primary-button primary-button--full" href="https://t.zcft.io/invitation?invitationId=tZXkbn64zWzqVe0jvFNs36uIomViTZco-8038d382-MdZXkmh5AQ&amp;skipOnboarding=true" target="_blank" rel="noopener noreferrer"><span>Да, с удовольствием</span><span aria-hidden="true">♥</span></a>
+          </article>
+        </section>
+
+        <section id="accepted-view" class="view view--accepted" hidden>
+          <div class="celebration" aria-hidden="true"><span>✦</span><span>♥</span><span>✧</span><span>✦</span><span>♥</span><span>✧</span><span>✦</span></div>
+          <div class="accepted-content">
+            <div class="success-mark">♥</div>
+            <p class="eyebrow">Свидание состоится</p>
+            <h2>Лучший ответ<br /><em>на свете.</em></h2>
+            <div class="accepted-details"><strong id="accepted-date">Суббота, 22 мая 2027 г. · 18:30</strong><span id="accepted-location">Место пока в секрете ✦</span></div>
+            <div class="accepted-actions"><button id="calendar-button" class="secondary-button" type="button">Добавить в календарь <span aria-hidden="true">＋</span></button></div>
+          </div>
+        </section>
+      </section>
+
+      <footer class="site-footer"><span>создано для одного особенного человека</span><span class="footer-heart">♥</span><span>персональные данные не собираются</span></footer>
+      <div id="announcement" class="sr-only" aria-live="assertive"></div>
+    </main>
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>
